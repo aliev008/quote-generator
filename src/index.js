@@ -1,57 +1,57 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 
+const App = () => {
+  console.log('App rendered');
+  const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+  const [data, setData] = useState(null);
+  const [currentQuote, setCurrentQuote] = useState('');
+  const [author, setAuthor] = useState('');
+  const [backgroundColor, setBackgroundColor] = useState(randomColor);
+  const [color, setColor] = useState(randomColor)
+  const [opacity, setOpacity] = useState(0);
+  const [buttonClicked, setButtonClicked] = useState(false);
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentQuote: ` background: pink`,
-      backgroundStyle: `yellow`,
-    }
-    this.changeQuote = this.changeQuote.bind(this);
-  }
+  useEffect(() => {
+    console.log('UseEffect rendered');
+    fetch('https://api.quotable.io/random')
+    .then(response => response.json())
+    .then(data => setData(data))}, [buttonClicked]);
 
-  changeQuote(newData) {
-    const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
-      this.setState({opacity: 0});
-      const response = fetch('https://api.quotable.io/random')
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          backgroundStyle: `${randomColor}`,
-          colorStyle: `${randomColor}`,
-        })
-        setTimeout(() => {this.setState({currentQuote: ' ' + data.content, opacity: 1, author: '- ' + data.author,})}, 1000);
-      })
+  function changeQuote() {
+        setOpacity(0);
+        setTimeout(() => {
+          setCurrentQuote(' ' + data.content);
+          setOpacity(1);
+          setAuthor('- ' + data.author);
+        }, 1000);
+        setColor(randomColor);
+        setBackgroundColor(randomColor);
+        setButtonClicked((prev) => !prev);
+      }
 
-  }
-
-  render() {
-    const accessToken = "ad39cde4932d44255558ce7e74a116d61123e511a8584f3cb901ca68d77ce525b3b4ce44a6ad020ec2806&v=5.131";
-    console.log(this.state.opacity);
-    return (
-      <div className='wrapper' style={{backgroundColor: this.state.backgroundStyle, color: this.state.colorStyle,}}>
-        <div id="quote-box">
-            <figure>
-            <blockquote id="text" style={{opacity: this.state.opacity}}><i class="fa-solid fa-quote-left"></i>{this.state.currentQuote}</blockquote>
-            <figcaption id="author" style={{opacity: this.state.opacity}}>{this.state.author}</figcaption>
-            </figure>
-          <div className="buttons-section">
-            <a id="tweet-quote"  href="twitter.com/intent/tweet" target="_blank"><button style={{backgroundColor: this.state.backgroundStyle}} className="btn"><i class="fa-brands fa-vk fa-2x"></i></button></a>
-            <a id="new-quote" ><button style={{backgroundColor: this.state.backgroundStyle}} className="btn" onClick={() => this.changeQuote()}>New Quote</button></a>
-          </div>
+  return (
+    <div className='wrapper' style={{backgroundColor: backgroundColor, color: color}}>
+      <div id="quote-box">
+          <figure>
+          <blockquote id="text" style={{opacity: opacity}}><i className="fa-solid fa-quote-left"></i>{currentQuote}</blockquote>
+          <figcaption id="author" style={{opacity: opacity}}>{author}</figcaption>
+          </figure>
+        <div className="buttons-section">
+          <a id="tweet-quote"  href="twitter.com/intent/tweet" target="_blank"><button style={{backgroundColor: backgroundColor}} className="btn"><i className="fa-brands fa-vk fa-2x"></i></button></a>
+          <a id="new-quote" ><button style={{backgroundColor: backgroundColor}} className="btn" onClick={changeQuote}>New Quote</button></a>
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
+//---------------------------
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  /* <React.StrictMode> */
     <App />
-  </React.StrictMode>
+  /* </React.StrictMode> */
 );
