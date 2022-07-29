@@ -6,59 +6,39 @@ import Buttons from "./components/Buttons/buttons";
 import "./index.scss";
 
 const App = () => {
-  console.log("App rendered");
   const [data, setData] = useState(null);
-  const [buttonClicked, setButtonClicked] = useState(false);
+  const [buttonClicked, setButtonClicked] = useState(true);
   const [color, setColor] = useState(randomColor());
-  // const [opacity, setOpacity] = useState('1');
-  // const [style, setStyle] = useState({
-  //   opacity: "0",
-  //   color: `${randomColor()}`,
-  // });
-  const [fade, setFade] = useState(true);
+  const [opacity, setOpacity] = useState("1");
 
   useEffect(() => {
-    console.log("UseEffect rendered");
-    fetch("https://api.quotable.io/random")
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
-        setColor(randomColor());
-      });
-
-    return () => {
-      // setOpacity('0');
-      setFade(!fade);
-    };
+    console.log("Inside UseEffect");
+    setTimeout(() => {
+      fetch("https://api.quotable.io/random")
+        .then((response) => response.json())
+        .then((data) => {
+          setData(() => {
+            console.log(`inside setData`);
+            return data;
+          });
+          setOpacity("1");
+        });
+    }, 2000);
   }, [buttonClicked]);
 
   function changeQuote() {
     console.log("Inside changequote");
+    setOpacity("0");
+    setColor(() => randomColor());
     setButtonClicked((prev) => !prev);
-    // setTimeout(() => {
-    //   console.log(`opacity`, opacity)
-    //   setOpacity('1');
-    // }, 2000)
-    // setStyle({ opacity: "1", color: `${randomColor()}` });
-    // setTimeout(() => {
-    //   setStyle({ opacity: "1", color: `${randomColor()}` });
-    // }, 0);
   }
+  console.log("App component rendered");
 
   if (data) {
     return (
-      <div
-        className="wrapper"
-        // style={{ background: style.color, color: style.color }}
-        style={{ background: color, color: color }}
-      >
+      <div className="wrapper" style={{ background: color, color: color }}>
         <div id="quote-box">
-          <Quote
-            quote={data.content}
-            author={data.author}
-            // opacity={opacity}
-            fade={fade}
-          />
+          <Quote quote={data.content} author={data.author} opacity={opacity} />
           <Buttons
             changeQuote={changeQuote}
             color={color}
