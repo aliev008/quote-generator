@@ -12,13 +12,11 @@ const App = () => {
   const [opacity, setOpacity] = useState("1");
 
   useEffect(() => {
-    console.log("Inside UseEffect");
     setTimeout(() => {
       fetch("https://api.quotable.io/random")
         .then((response) => response.json())
         .then((data) => {
           setData(() => {
-            console.log(`inside setData`);
             return data;
           });
           setOpacity("1");
@@ -27,12 +25,10 @@ const App = () => {
   }, [buttonClicked]);
 
   function changeQuote() {
-    console.log("Inside changequote");
     setOpacity("0");
     setColor(() => randomColor());
     setButtonClicked((prev) => !prev);
   }
-  console.log("App component rendered");
 
   if (data) {
     return (

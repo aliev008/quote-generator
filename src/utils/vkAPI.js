@@ -11,7 +11,7 @@ function authHandler(textMessage) {
         },
         function (methodCall) {
           if (methodCall.response) {
-            alert("Цитаты была опубликована на вашей стене");
+            alert("Цитата была опубликована на вашей стене");
           }
         }
       );
