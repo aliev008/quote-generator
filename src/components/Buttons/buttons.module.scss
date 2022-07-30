@@ -1,11 +1,11 @@
 .buttons__section {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
     margin-top: 2rem;
 
     button {
-
+        width: 80%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -19,10 +19,10 @@
         border-radius: 0.5rem;
         outline: none;
         cursor: pointer;
+        margin-bottom: 1rem;
 
         @media (max-width: 500px) {
             width: 100%;
-            margin-bottom: 2rem;
         }
 
         i {

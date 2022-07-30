@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import randomColor from "./utils/randomColor";
+import { speak } from './utils/speechSynthesis'
 import Quote from "./components/Quote/quote";
 import Buttons from "./components/Buttons/buttons";
 import "./index.scss";
@@ -30,6 +31,10 @@ const App = () => {
     setButtonClicked((prev) => !prev);
   }
 
+  function sayText(text) {
+    speak(text);
+  }
+
   if (data) {
     return (
       <div className="wrapper" style={{ background: color, color: color }}>
@@ -37,6 +42,7 @@ const App = () => {
           <Quote quote={data.content} author={data.author} opacity={opacity} />
           <Buttons
             changeQuote={changeQuote}
+            sayText={sayText}
             color={color}
             quote={data.content}
             author={data.author}
