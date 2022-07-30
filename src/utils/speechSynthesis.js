@@ -1,10 +1,6 @@
 const synth = window.speechSynthesis;
 
-
-let voices = synth.getVoices();
-
-function speak (text) {
-
+function speak(text) {
   if (synth.speaking) {
     console.error("speechSynthesis.speaking");
     return;
