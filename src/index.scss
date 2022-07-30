@@ -51,7 +51,11 @@ body {
 
 #quote-box {
   background-color: white;
-  width: 50rem;
+  max-width: 50rem;
   padding: 5rem;
   border-radius: 3rem;
+
+  @media (max-width: 500px) {
+    width: 80%;
+  }
 }
