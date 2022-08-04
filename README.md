@@ -1,4 +1,4 @@
-# Quote Machine Generator
+# Quote Generator
 
 This project is a pet Project.
 
